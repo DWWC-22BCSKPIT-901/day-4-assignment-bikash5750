@@ -1,0 +1,59 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+class TextEditor {
+private:
+    string text;
+    stack<string> history;
+
+public:
+    void append(const string& w) {
+        history.push(text);
+        text += w;
+    }
+
+    void deleteLast(int k) {
+        history.push(text);
+        text.erase(text.size() - k);
+    }
+
+    char printChar(int k) {
+        return text[k - 1];
+    }
+
+    void undo() {
+        if (!history.empty()) {
+            text = history.top();
+            history.pop();
+        }
+    }
+};
+
+// Example usage
+int main() {
+    TextEditor editor;
+    int q;
+    cin >> q;
+    while (q--) {
+        int t;
+        cin >> t;
+        if (t == 1) {
+            string w;
+            cin >> w;
+            editor.append(w);
+        } else if (t == 2) {
+            int k;
+            cin >> k;
+            editor.deleteLast(k);
+        } else if (t == 3) {
+            int k;
+            cin >> k;
+            cout << editor.printChar(k) << endl;
+        } else if (t == 4) {
+            editor.undo();
+        }
+    }
+    return 0;
+}
