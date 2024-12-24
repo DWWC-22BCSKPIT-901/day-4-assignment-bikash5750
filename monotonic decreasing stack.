@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+using namespace std;
+
+vector<int> nextGreaterElements(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> result(n, -1); // Initialize result with -1
+    stack<int> st; // Monotonic decreasing stack to store indices
+
+    // Traverse the array twice to simulate circular behavior
+    for (int i = 0; i < 2 * n; i++) {
+        int currentIndex = i % n; // Modulo for circular indexing
+        while (!st.empty() && nums[st.top()] < nums[currentIndex]) {
+            result[st.top()] = nums[currentIndex];
+            st.pop();
+        }
+        if (i < n) {
+            st.push(currentIndex); // Push index only in the first pass
+        }
+    }
+
+    return result;
+}
+
+// Example usage
+int main() {
+    vector<int> nums1 = {1, 2, 1};
+    vector<int> nums2 = {1, 2, 3, 4, 3};
+
+    vector<int> result1 = nextGreaterElements(nums1);
+    vector<int> result2 = nextGreaterElements(nums2);
+
+    for (int num : result1) cout << num << " ";
+    cout << endl;
+
+    for (int num : result2) cout << num << " ";
+    cout << endl;
+
+    return 0;
+}
