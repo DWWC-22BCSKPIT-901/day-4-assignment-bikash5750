@@ -1,0 +1,47 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class MyQueue {
+private:
+    stack<int> input, output;
+
+    void transfer() {
+        while (!input.empty()) {
+            output.push(input.top());
+            input.pop();
+        }
+    }
+
+public:
+    void push(int x) {
+        input.push(x);
+    }
+
+    int pop() {
+        if (output.empty()) transfer();
+        int val = output.top();
+        output.pop();
+        return val;
+    }
+
+    int peek() {
+        if (output.empty()) transfer();
+        return output.top();
+    }
+
+    bool empty() {
+        return input.empty() && output.empty();
+    }
+};
+
+// Example usage
+int main() {
+    MyQueue q;
+    q.push(1);
+    q.push(2);
+    cout << q.peek() << endl; // 1
+    cout << q.pop() << endl;  // 1
+    cout << q.empty() << endl; // false
+    return 0;
+}
